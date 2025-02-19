@@ -13,7 +13,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping
+    @GetMapping(path = "/all")
     public ResponseEntity<?> getAllCategory() {
         return ResponseEntity.ok().body(categoryService.findAll());
     }

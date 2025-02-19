@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.print.Doc;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/product")
@@ -31,10 +33,13 @@ public class ProductController {
     @GetMapping(path = "/top-seller")
     public ResponseEntity<?> getTopSellerProduct()
     {
-        List<Document> documents = new ArrayList<>();
+        List<Map<String,Object>> documents = new ArrayList<>();
         List<Object[]> topSeller = productService.findTop10BestSellerProduct();
         for(Object[] p : topSeller) {
-            documents.add((Document) p[0]);
+            Map<String,Object> docMap = new HashMap<>();
+            docMap.put("document",(Document) p[0]);
+            docMap.put("total_quantity",(Long) p[1]);
+            documents.add(docMap);
         }
         if(documents == null) {
             return ResponseEntity.notFound().build();
